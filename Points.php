@@ -8,7 +8,9 @@ namespace bl\virtual_points;
 
 use bl\virtual_points\behaviors\Point;
 use yii\base\Component;
-
+/**
+ * @method addPoint(int $point)
+ */
 class Points extends Component
 {
     public $ar_object;

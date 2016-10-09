@@ -16,6 +16,9 @@ class m160916_135740_create_table extends Migration
             'key_id' => $this->integer(11),
             'object_id' => $this->integer(11),
             'point' => $this->integer(11),
+            'description' => $this->string(255),
+            'date_create' => $this->integer(11),
+            'date_update' => $this->integer(11),
         ]);
 
         $this->addForeignKey('list_object_points_key_object_points_fk',
