@@ -1,0 +1,23 @@
+{
+    "name": "maks757/yii2-virtual-points",
+    "description": "",
+    "keywords": ["yii2", "virtual points", "points", "maks757"],
+    "type": "yii2-extension",
+    "license": "GNU Public License",
+    "support": {
+        "source": "https://github.com/maks757/yii2-virtual-points"
+    },
+    "require": {
+    },
+    "authors": [
+        {
+            "name": "Maxim Cherednyk",
+            "email": "maks757q@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "bl\\virtual_points\\": ""
+        }
+    }
+}
