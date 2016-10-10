@@ -18,12 +18,54 @@ use yii\helpers\BaseFileHelper;
 class Point extends Behavior
 {
     /**
+     */
+    public function getAllPoint()
+    {
+        $key = KeyObjectPoints::findOne(['key' => $this->getObjectClassKey()]);
+        $user_point = ListObjectPoints::find()->select('object_id, sum(point) as points')
+            ->where(['key_id' => $key->id])
+            ->groupBy('object_id')
+            ->asArray()->all();
+        return $user_point;
+    }
+
+    /**
+     * @param bool $showAll
+     * @return mixed
+     */
+    public function getPoint($showAll = false)
+    {
+        $key = KeyObjectPoints::findOne(['key' => $this->getObjectClassKey()]);
+        $user_point = ListObjectPoints::find()
+            ->where(['key_id' => $key->id, 'object_id' => $this->getObjectKey()]);
+        if($showAll){
+            $user_point = $user_point->select('object_id, point, description, date_create')->all();
+        } else {
+            $user_point = $user_point->select('sum(point) as points')->asArray()->one();
+        }
+        return $showAll ? $user_point : $user_point['points'];
+    }
+    /**
      * @param int $point
      * @param string|null $description
      */
     public function addPoint($point, $description = null)
     {
-        $class_name = sha1($this->getObjectClassName());
+        $this->setPoint($point, $description);
+    }
+
+    /**
+     * @param int $point
+     * @param string|null $description
+     */
+    public function takePoint($point, $description = null)
+    {
+        $this->setPoint($point, $description);
+    }
+
+    private function setPoint($point, $description = null)
+    {
+        $class_name = $this->getObjectClassKey();
         if(empty($key_point = KeyObjectPoints::findOne(['key' => $class_name]))) {
             $key_point = new KeyObjectPoints();
             $key_point->key = $class_name;
@@ -53,12 +95,12 @@ class Point extends Behavior
             throw new InvalidValueException('Pleas set value to "ar_object" param.');
     }
 
-    private function getObjectClassName()
+    private function getObjectClassKey()
     {
         /** @var $object ActiveRecord */
         $object = $this->owner->ar_object;
         if(!empty($object)){
-            return $object::className();
+            return sha1($object::className());
         } else
             throw new InvalidValueException('Pleas set value to "ar_object" param.');
     }
