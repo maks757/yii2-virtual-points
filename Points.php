@@ -17,6 +17,7 @@ use yii\base\Component;
 class Points extends Component
 {
     public $ar_object;
+    public $category;
 
     public $pk = null;
 

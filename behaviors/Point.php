@@ -98,10 +98,16 @@ class Point extends Behavior
     private function getObjectClassKey()
     {
         /** @var $object ActiveRecord */
+        $category_name = $this->owner->category;
         $object = $this->owner->ar_object;
-        if(!empty($object)){
-            return sha1($object::className());
-        } else
-            throw new InvalidValueException('Pleas set value to "ar_object" param.');
+        if(is_string($category_name)) {
+            return sha1($category_name);
+        } else {
+            if (is_object($object)) {
+                return sha1($object::className());
+            } else {
+                throw new InvalidValueException('Pleas set value to "ar_object" or "category" param.');
+            }
+        }
     }
 }
