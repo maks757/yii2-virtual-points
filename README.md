@@ -27,7 +27,7 @@ yii migrate --migrationPath=@vendor/maks757/yii2-virtual-point/migrations
         'class' => \bl\virtual_points\Points::className(),
         
         //Set key
-        'category' => 'auth' or User::className(),
+        'category' => 'auth' //or User::className(),
         //or
         //'ar_object' => new User(),
     ],
